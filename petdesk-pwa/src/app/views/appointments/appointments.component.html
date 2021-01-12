@@ -1,0 +1,11 @@
+<ejs-schedule *ngIf="data.isLoaded; else loading" [eventSettings]="eventSettings" [selectedDate]="data.selectedDate"
+  (popupOpen)='onPopupOpen($event)'>
+</ejs-schedule>
+<ng-template #loading>
+  <div>
+    <div>
+      Loading, please wait...
+    </div>
+    <div class="loader"></div>
+  </div>
+</ng-template>

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PetDesk.Data\PetDesk.Data.csproj" />
+    <ProjectReference Include="..\PetDesk.Interfaces\PetDesk.Interfaces.csproj" />
+    <ProjectReference Include="..\PetDesk.Models\PetDesk.Models.csproj" />
+  </ItemGroup>
+
+</Project>
