@@ -1,11 +1,52 @@
-<ejs-schedule *ngIf="data.isLoaded; else loading" [eventSettings]="eventSettings" [selectedDate]="data.selectedDate"
-  (popupOpen)='onPopupOpen($event)'>
-</ejs-schedule>
-<ng-template #loading>
-  <div>
-    <div>
-      Loading, please wait...
-    </div>
-    <div class="loader"></div>
+<div class="row" style="padding: 20px 0px 20px 0px;">
+  <div class="col">
+    <ng-template #loading>
+      <div>
+        <div>
+          Loading, please wait...
+        </div>
+        <div class="loader"></div>
+      </div>
+    </ng-template>
+
+    <ejs-schedule #schedule *ngIf="data.isLoaded; else loading" [eventSettings]="eventSettings"
+      [selectedDate]="data.selectedDate" (popupOpen)="onPopupOpen($event)" (select)="selectAppointment($event)"
+      (eventRendered)="onEventRendered($event)">
+    </ejs-schedule>
   </div>
-</ng-template>
+</div>
+
+<ejs-dialog id="editDialog" #editDialog [showCloseIcon]="true" showOnInit="false" width="400px"
+  (beforeOpen)="beforeOpenEditDialog($event)" isModal="true">
+  <ng-template #header>
+    Appointment
+  </ng-template>
+  <ng-template #content>
+    <div class="form-group">
+      <div>Type: {{editItem.appointmentType || ''}}</div>
+      <div>Owner: {{(editItem.user.firstName || '') + ' ' + (editItem.user.lastName || '')}}</div>
+      <div>Name: {{editItem.animal.firstName || 'N/A'}}</div>
+      <div>Species: {{editItem.animal.species || 'N/A'}}</div>
+      <div>Breed: {{editItem.animal.breed || 'N/A'}}</div>
+      <br />
+      <div class="form-group">
+        <label>Start Date/Time: </label>
+        <ejs-datetimepicker #startTimeControl [(value)]="editItem.requestedDateTimeOffset" width="230px">
+        </ejs-datetimepicker>
+      </div>
+      <div class="form-group">
+        <label>End Date/Time: </label>
+        <ejs-datetimepicker #endTimeControl [(value)]="editItem.endTime" width="230px"></ejs-datetimepicker>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #footerTemplate>
+    <button ejs-progressbutton #saveConfirmButton id="saveConfirmButton" style="margin-right: 20px;"
+      class="button button-confirm" data-ripple="true" (click)="confirmAppointment()" duration="120000"
+      [content]="editItem.isConfirmed ? 'Unconfirm' : 'Confirm'"></button>
+    <button ejs-progressbutton #saveEditButton id="saveEditButton" style="margin-right: 20px;" class="button button-ok"
+      data-ripple="true" (click)="saveAppointment()" duration="120000" content="Update"></button>
+    <button ejs-button class="button button-dismiss" id="cancelEditButton" data-ripple="true" (click)="cancelEdit()"
+      content="Cancel"></button>
+  </ng-template>
+</ejs-dialog>

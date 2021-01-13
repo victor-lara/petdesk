@@ -7,8 +7,10 @@
 @import '~@syncfusion/ej2-dropdowns/styles/fabric.css';
 @import '~@syncfusion/ej2-inputs/styles/fabric.css';
 @import '~@syncfusion/ej2-lists/styles/fabric.css';
-@import '~@syncfusion/ej2-popups/styles/fabric.css';
 @import '~@syncfusion/ej2-navigations/styles/fabric.css';
+@import '~@syncfusion/ej2-popups/styles/fabric.css';
+@import '~@syncfusion/ej2-splitbuttons/styles/fabric.css';
+@import '~@syncfusion/ej2-angular-calendars/styles/fabric.css';
 @import '~@syncfusion/ej2-angular-schedule/styles/fabric.css';
 /* custom loading spinner */
 
@@ -28,4 +30,29 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* Buttons */
+
+.button-ok {
+  background-color: #007bff;
+  color: white !important;
+}
+
+.button-cancel {
+  background-color: #c82333;
+  color: white !important;
+}
+
+.button-confirm {
+  background-color: darkgreen;
+  color: white !important;
+}
+
+.button-dismiss {
+  background-color: lightgray;
+}
+
+.button-confirm:hover, .button-cancel:hover, .button-ok:hover {
+  color: inherit !important;
 }

@@ -8,8 +8,6 @@ import { AppointmentsService } from "../services/appointments.service";
 
 const DEFAULT_STATE: AppointmentsState = {
   appointments: [],
-  showDialog: false,
-  editDialog: null,
   isLoaded: false,
   selectedDate: new Date()
 };
@@ -21,6 +19,8 @@ export class AppointmentsStore extends ComponentStore<AppointmentsState> {
   constructor(private appointmentsService: AppointmentsService) {
     super(DEFAULT_STATE);
 
+    //Grabs the data from API on store creation
+    //the subscription is destroyed after is completed
     this.appointmentsService.getAll()
       .pipe(finalize(() => {
         this.setState(state => {
@@ -42,11 +42,12 @@ export class AppointmentsStore extends ComponentStore<AppointmentsState> {
 
   readonly state = this.select(state => state);
 
-  readonly confirm = this.updater((state, id: number) => {
-    const items = state.appointments;
+  readonly reschedule = this.updater((state, appointment: Appointment) => {
+    let items = state.appointments;
     items.forEach(x => {
-      if (x.appointmentId == id) {
-        x.isConfirmed = true;
+      if (x.appointmentId == appointment.appointmentId) {
+        x.requestedDateTimeOffset = appointment.requestedDateTimeOffset;
+        x.endTime = appointment.endTime;
         return;
       }
     });
@@ -57,14 +58,14 @@ export class AppointmentsStore extends ComponentStore<AppointmentsState> {
     };
   });
 
-  readonly reschedule = this.updater((state, appointment: Appointment) => {
-    const items = state.appointments;
+  readonly confirm = this.updater((state, appointment: Appointment) => {
+    let items = state.appointments;
     items.forEach(x => {
       if (x.appointmentId == appointment.appointmentId) {
-        x = appointment;
+        x.isConfirmed = appointment.isConfirmed;
         return;
       }
-    })
+    });
 
     return {
       ...state,
@@ -75,8 +76,6 @@ export class AppointmentsStore extends ComponentStore<AppointmentsState> {
 
 export interface AppointmentsState {
   appointments: Array<Appointment>;
-  showDialog: boolean;
-  editDialog?: number;
   isLoaded: boolean;
   selectedDate: Date;
 }
